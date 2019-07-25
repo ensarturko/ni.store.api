@@ -19,8 +19,21 @@ namespace Ni.Store.Api.Utilities
         {
             return new StorePutResponse
             {
+                Id = store.Id,
                 Value = store.Value,
-                Key = store.Key
+                Key = store.Key,
+                ExpiresInMinutes = store.ExpiresInMinutes
+            };
+        }
+
+        public static StorePostResponse ConvertToStorePostResponse(this Data.Entities.Store store)
+        {
+            return new StorePostResponse
+            {
+                Id = store.Id,
+                Value = store.Value,
+                Key = store.Key,
+                ExpiresInMinutes = store.ExpiresInMinutes
             };
         }
     }

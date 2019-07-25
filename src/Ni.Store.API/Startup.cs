@@ -4,6 +4,7 @@ using Ni.Store.Api.Services;
 using Ni.Store.Api.Services.Implementations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -13,6 +14,7 @@ using NLog.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Ni.Store.Api.Data.Repositories;
 using Ni.Store.Api.Data.Repositories.Implementations;
 using Ni.Store.Api.Middleware;
@@ -30,11 +32,8 @@ namespace Ni.Store.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //Services
-            services.AddSingleton<IStoreService, StoreService>();
-
-            //Data
-            services.AddSingleton<IStoreRepository, StoreRepository>();
+            services.AddTransient<IStoreService, StoreService>();
+            services.AddTransient<IStoreRepository, StoreRepository>();
 
             services.AddSwaggerGen(c =>
             {
@@ -59,6 +58,8 @@ namespace Ni.Store.Api
                     options.SerializerSettings.DateParseHandling = DateParseHandling.DateTime;
                     options.SerializerSettings.NullValueHandling = NullValueHandling.Include;
                 });
+
+            services.AddHealthChecks().AddCheck<HealthCheckService>("default");
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -67,25 +68,23 @@ namespace Ni.Store.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            loggerFactory.AddNLog();
-            NLog.LogManager.LoadConfiguration("nlog.config");
+            else
+            {
+                app.UseHsts();
+            }
 
             app.UseMiddleware<LoggingMiddleware>();
+            app.UseCors(options => options.AllowAnyMethod().AllowAnyOrigin().AllowAnyHeader());
+
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Beymen.ProductSearch.Api");
+
+            app.UseSwaggerUI(options => {
+                options.SwaggerEndpoint("v1/swagger.json", "Ni.Store.Api");
             });
 
-            app.UseResponseCompression();
-            app.UseCors(
-                options => options.AllowAnyMethod()
-                                  .AllowAnyOrigin()
-                                  .AllowAnyHeader()
-            );
-
-            app.UseMvc();
+            app.UseHttpsRedirection();
+            app.UseMvcWithDefaultRoute();
+            app.UseHealthChecks("/healthcheck");
         }
     }
 }

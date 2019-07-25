@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Ni.Store.Api.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -61,6 +62,23 @@ namespace Ni.Store.Api.Controllers
             }
 
             return BadRequest(response.Errors);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(StoreGetResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Post([FromBody] StorePutRequest request)
+        {
+            var response = await _storeService.Post(request);
+
+            if (!response.HasError)
+            {
+                return Ok(response.Data);
+            }
+
+            return BadRequest(response.Errors);
+
+            return Ok();
         }
 
         [HttpPut("{id:int}")]

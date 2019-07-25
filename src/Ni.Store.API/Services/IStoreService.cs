@@ -13,5 +13,7 @@ namespace Ni.Store.Api.Services
         Task<BaseResponse<bool?>> Delete(int id);
         Task Delete();
         Task Head(StoreHeadRequest request);
+        Task<BaseResponse<StorePostResponse>> Post(StorePutRequest request);
+        Task<Data.Entities.Store> GetFirst();
     }
 }

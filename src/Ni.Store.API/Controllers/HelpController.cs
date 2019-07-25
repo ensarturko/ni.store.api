@@ -2,14 +2,14 @@
 
 namespace Ni.Store.Api.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/healthcheck")]
     public class HelpController : Controller
     {
-        [HttpGet]
-        public IActionResult Get()
+        [HttpGet("/")]
+        [Produces("application/json")]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public IActionResult Root()
         {
-            return Ok();
+            return Ok("Warmed up successfully");
         }
     }
 }

@@ -24,13 +24,25 @@ namespace Ni.Store.Api.Data.Repositories.Implementations
             return _dbContext.Stores.AsEnumerable();
         }
 
-        public async Task<Entities.Store> Update(Entities.Store store)
+        public async Task<Entities.Store> Post(Entities.Store store)
         {
-            var entry = _dbContext.Stores.Update(store);
-
+            var entry = await _dbContext.Stores.AddAsync(store);
             await _dbContext.SaveChangesAsync();
 
             return entry.Entity;
+        }
+
+        public async Task<Entities.Store> Update(Entities.Store store)
+        {
+            var entry = _dbContext.Stores.Update(store);
+            await _dbContext.SaveChangesAsync();
+
+            return entry.Entity;
+        }
+
+        public async Task<Entities.Store> GetFirst()
+        {
+            return await _dbContext.Stores.FirstOrDefaultAsync();
         }
 
         public async Task<bool> Head(string key, string value)

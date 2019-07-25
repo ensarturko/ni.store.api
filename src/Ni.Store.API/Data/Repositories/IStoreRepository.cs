@@ -11,7 +11,9 @@ namespace Ni.Store.Api.Data.Repositories
         Task<bool> Head(string key, string value);
         Task Delete(Entities.Store store);
         Task Delete();
-        
+        Task<Entities.Store> Post(Entities.Store store);
+        Task<Entities.Store> GetFirst();
+
         //Task<Entities.Store> Put(int expireTime);
 
         // TODO: Wildcard get.

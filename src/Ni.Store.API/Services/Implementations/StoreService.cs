@@ -50,7 +50,7 @@ namespace Ni.Store.Api.Services.Implementations
 
             try
             {
-                var stores =  _repository.Get().ToList(); // You can pass request object or parameters.
+                var stores = _repository.Get().ToList(); // You can pass request object or parameters.
 
                 var storeList = new List<StoreGetResponse>();
 
@@ -175,6 +175,34 @@ namespace Ni.Store.Api.Services.Implementations
 
                 response.Errors.Add("An error occurred while processing your request.");
             }
+        }
+
+        public async Task<BaseResponse<StorePostResponse>> Post(StorePutRequest request)
+        {
+            var response = new BaseResponse<StorePostResponse>();
+
+            var store = new Data.Entities.Store
+            {
+                Key = request.Key,
+                Value = request.Value
+            };
+
+            if (await _repository.Head(store.Key, store.Value))
+            {
+                response.Errors.Add("This record already exists.");
+            }
+            else
+            {
+                var entity = await _repository.Post(store);
+                response.Data = entity.ConvertToStorePostResponse();
+            }
+
+            return response;
+        }
+
+        public Task<Data.Entities.Store> GetFirst()
+        {
+            return _repository.GetFirst();
         }
     }
 }
