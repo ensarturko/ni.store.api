@@ -4,19 +4,17 @@ using Ni.Store.Api.Services;
 using Ni.Store.Api.Services.Implementations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using NLog.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Ni.Store.Api.Data.Repositories;
 using Ni.Store.Api.Data.Repositories.Implementations;
+using Ni.Store.Api.Logging;
 using Ni.Store.Api.Middleware;
 
 namespace Ni.Store.Api
@@ -35,6 +33,7 @@ namespace Ni.Store.Api
             services.AddTransient<IStoreService, StoreService>();
             services.AddTransient<IStoreRepository, StoreRepository>();
 
+            services.AddLogging();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Ni.Store.Api", Version = "v1" });
@@ -64,6 +63,8 @@ namespace Ni.Store.Api
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddProvider(new FileLogProvider());
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
