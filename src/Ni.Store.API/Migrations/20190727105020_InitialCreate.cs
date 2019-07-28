@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Ni.Store.Api.Migrations
@@ -15,7 +16,7 @@ namespace Ni.Store.Api.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Key = table.Column<string>(nullable: true),
                     Value = table.Column<string>(nullable: true),
-                    ExpiresInMinutes = table.Column<int>(nullable: false)
+                    ExpirationTime = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Ni.Store.Api.Models.Requests;
 using Ni.Store.Api.Models.Responses;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Protocols;
 using Ni.Store.Api.Data.Repositories;
 using Ni.Store.Api.Utilities;
 
@@ -29,7 +30,15 @@ namespace Ni.Store.Api.Services.Implementations
             {
                 var store = await _repository.Get(id);
 
-                if (store != null)
+                if (store == null)
+                {
+                    response.Errors.Add("No such record exists.");
+                }
+                else if (store.ExpirationTime.HasValue && store.ExpirationTime < DateTime.Now)
+                {
+                    response.Errors.Add("The key is expired.");
+                }
+                else
                 {
                     response.Data = store.ConvertToStoreGetResponse();
                 }
@@ -50,7 +59,7 @@ namespace Ni.Store.Api.Services.Implementations
 
             try
             {
-                var stores = _repository.Get().ToList(); // You can pass request object or parameters.
+                var stores = _repository.Get().ToList();
 
                 var storeList = new List<StoreGetResponse>();
 
@@ -76,7 +85,7 @@ namespace Ni.Store.Api.Services.Implementations
             return response;
         }
 
-        public async Task<BaseResponse<StorePutResponse>> Put(int id, StorePutRequest request)
+        public async Task<BaseResponse<StorePutResponse>> Put(int id, double? expireIn, StorePutRequest request)
         {
             var response = new BaseResponse<StorePutResponse>();
 
@@ -88,6 +97,11 @@ namespace Ni.Store.Api.Services.Implementations
                 {
                     store.Key = request.Key;
                     store.Value = request.Value;
+
+                    if (expireIn.HasValue)
+                    {
+                        store.ExpirationTime = DateTime.Now.AddSeconds((double) expireIn); 
+                    }
 
                     if (await _repository.Head(store.Key, store.Value))
                     {
@@ -181,10 +195,16 @@ namespace Ni.Store.Api.Services.Implementations
         {
             var response = new BaseResponse<StorePostResponse>();
 
+            if (!request.ExpirationTime.HasValue)
+            {
+                request.ExpirationTime = DateTime.Now.AddDays(1);
+            }
+
             var store = new Data.Entities.Store
             {
                 Key = request.Key,
-                Value = request.Value
+                Value = request.Value,
+                ExpirationTime = request.ExpirationTime
             };
 
             if (await _repository.Head(store.Key, store.Value))

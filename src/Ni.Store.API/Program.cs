@@ -8,14 +8,11 @@ namespace Ni.Store.Api
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
-
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseUrls("http://0.0.0.0:50000")
-                .UseNLog()
-                .Build();
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            return WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
+        }
     }
 }

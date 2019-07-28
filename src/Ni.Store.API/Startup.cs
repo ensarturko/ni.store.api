@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Ni.Store.Api.Data.Repositories;
 using Ni.Store.Api.Data.Repositories.Implementations;
-using Ni.Store.Api.Logging;
 using Ni.Store.Api.Middleware;
 
 namespace Ni.Store.Api
@@ -63,7 +62,7 @@ namespace Ni.Store.Api
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddProvider(new FileLogProvider());
+            //loggerFactory.AddProvider(new FileLogProvider());
 
             if (env.IsDevelopment())
             {

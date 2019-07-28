@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +22,7 @@ namespace Ni.Store.Api.Data.Repositories.Implementations
 
         public IEnumerable<Entities.Store> Get()
         {
-            return _dbContext.Stores.AsEnumerable();
+            return _dbContext.Stores.AsEnumerable().Where(x => x.ExpirationTime == null || x.ExpirationTime > DateTime.Now);
         }
 
         public async Task<Entities.Store> Post(Entities.Store store)

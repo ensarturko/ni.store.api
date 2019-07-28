@@ -1,8 +1,10 @@
-﻿namespace Ni.Store.Api.Models.Responses
+﻿using System;
+
+namespace Ni.Store.Api.Models.Responses
 {
     public class StoreGetResponse : CoreResponse
     {
         public int Id { get; set; }
-        public int ExpiresInMinutes { get; set; }
+        public DateTime? ExpirationTime { get; set; }
     }
 }

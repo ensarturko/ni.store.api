@@ -9,7 +9,7 @@ namespace Ni.Store.Api.Services
     {
         Task<BaseResponse<StoreGetResponse>> Get(int id);
         BaseResponse<List<StoreGetResponse>> GetAll();
-        Task<BaseResponse<StorePutResponse>> Put(int id, StorePutRequest request);
+        Task<BaseResponse<StorePutResponse>> Put(int id, double? expireIn, StorePutRequest request);
         Task<BaseResponse<bool?>> Delete(int id);
         Task Delete();
         Task Head(StoreHeadRequest request);

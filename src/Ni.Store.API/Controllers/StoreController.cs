@@ -10,12 +10,12 @@ namespace Ni.Store.Api.Controllers
 {
     [Produces("application/json")]
     [Route("api/keys")]
-    public class StoresController : BaseController
+    public class StoreController : BaseController
     {
-        private readonly ILogger<StoresController> _logger;
+        private readonly ILogger<StoreController> _logger;
         private readonly IStoreService _storeService;
 
-        public StoresController(ILogger<StoresController> logger, IStoreService storeService)
+        public StoreController(ILogger<StoreController> logger, IStoreService storeService)
         {
             _logger = logger;
             _storeService = storeService;
@@ -84,9 +84,9 @@ namespace Ni.Store.Api.Controllers
         [ProducesResponseType(typeof(StorePutResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BadRequestObjectResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Put([FromRoute] int id, [FromBody] StorePutRequest request)
+        public async Task<IActionResult> Put([FromRoute] int id, double? expireIn, [FromBody] StorePutRequest request)
         {
-            var response = await _storeService.Put(id, request);
+            var response = await _storeService.Put(id, expireIn, request);
 
             if (!response.HasError && response.Data != null)
             {

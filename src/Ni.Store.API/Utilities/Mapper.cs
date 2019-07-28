@@ -8,10 +8,10 @@ namespace Ni.Store.Api.Utilities
         {
             return new StoreGetResponse
             {
-                Id = store.Id,
                 Key = store.Key,
                 Value = store.Value,
-                ExpiresInMinutes = store.ExpiresInMinutes
+                ExpirationTime = store.ExpirationTime,
+                Id = store.Id
             };
         }
 
@@ -22,7 +22,7 @@ namespace Ni.Store.Api.Utilities
                 Id = store.Id,
                 Value = store.Value,
                 Key = store.Key,
-                ExpiresInMinutes = store.ExpiresInMinutes
+                ExpirationTime = store.ExpirationTime
             };
         }
 
@@ -33,7 +33,7 @@ namespace Ni.Store.Api.Utilities
                 Id = store.Id,
                 Value = store.Value,
                 Key = store.Key,
-                ExpiresInMinutes = store.ExpiresInMinutes
+                ExpirationTime = store.ExpirationTime
             };
         }
     }
