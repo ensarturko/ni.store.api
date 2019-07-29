@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json.Linq;
 using Ni.Store.Api.Data;
 using Xunit;
 
 namespace Ni.Store.Api.Tests
 {
-    public partial class StoreControllerTests 
+    public partial class StoreControllerTests
     {
         [Fact]
-        internal async Task Get_Should_Return_Existing_Record()
+        internal async Task Delete_Should_Record_NoContent_Record()
         {
             // Arrange
             var client = _factory.CreateClient();
@@ -36,44 +36,43 @@ namespace Ni.Store.Api.Tests
             var requestUri = $"/api/keys/{store.Id}";
 
             // Act
-            var response = await client.GetAsync(requestUri);
+            var response = await client.DeleteAsync(requestUri);
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
-            var responseString = await response.Content.ReadAsStringAsync();
-
-            Assert.NotEmpty(responseString);
-
-            var jObject = JObject.Parse(responseString);
-
-            Assert.Equal(4, jObject.Count);
-
-            Assert.True(jObject.ContainsKey("id"));
-            Assert.NotEqual(0, jObject["id"].Value<int>());
-
-            Assert.True(jObject.ContainsKey("key"));
-            Assert.Equal("TestKey1", jObject["key"].Value<string>());
-
-            Assert.True(jObject.ContainsKey("value"));
-            Assert.Equal("TestValue1", jObject["value"].Value<string>());
-
-            Assert.True(jObject.ContainsKey("expirationTime"));
+            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
         }
 
         [Fact]
-        internal async Task Get_Should_Return_BadRequest_When_Entity_Does_Not_Exist()
+        internal async Task Delete_Should_Return_NotFound_Record()
         {
             // Arrange
             var client = _factory.CreateClient();
-
-            const string requestUri = "/api/keys/999";
+            client.DefaultRequestHeaders.Add("UserId", "1");
+            var requestUri = $"/api/keys/999";
 
             // Act
-            var response = await client.GetAsync(requestUri);
+            var response = await client.DeleteAsync(requestUri);
+
+            // Assert
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        [Fact]
+        internal async Task Delete_Should_Return_Error_When_Id_Not_Greater_Than_Zero()
+        {
+            // Arrange
+            var client = _factory.CreateClient();
+            var requestUri = "/api/keys/0";
+
+            // Act
+            var response = await client.DeleteAsync(requestUri);
 
             // Assert
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+
+            var responseModel = await response.Content.ReadAsAsync<string[]>();
+            Assert.Single(responseModel);
+            Assert.Equal("Id must be greater than zero.", responseModel[0]);
         }
     }
 }

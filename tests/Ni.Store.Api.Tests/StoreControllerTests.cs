@@ -7,12 +7,12 @@ using Xunit;
 
 namespace Ni.Store.Api.Tests
 {
-    public partial class StoresControllerTests :
+    public partial class StoreControllerTests :
         IClassFixture<CustomWebApplicationFactory<Startup>>, IDisposable
     {
         private readonly CustomWebApplicationFactory<Startup> _factory;
 
-        public StoresControllerTests(CustomWebApplicationFactory<Startup> factory)
+        public StoreControllerTests(CustomWebApplicationFactory<Startup> factory)
         {
             _factory = factory;
         }

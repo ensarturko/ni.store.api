@@ -11,7 +11,7 @@ namespace Ni.Store.Api.Services
         BaseResponse<List<StoreGetResponse>> GetAll();
         Task<BaseResponse<StorePutResponse>> Put(int id, double? expireIn, StorePutRequest request);
         Task<BaseResponse<bool?>> Delete(int id);
-        Task Delete();
+        Task<BaseResponse<bool?>> Delete();
         Task Head(StoreHeadRequest request);
         Task<BaseResponse<StorePostResponse>> Post(StorePutRequest request);
         Task<Data.Entities.Store> GetFirst();

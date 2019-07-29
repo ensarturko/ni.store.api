@@ -76,11 +76,9 @@ namespace Ni.Store.Api.Controllers
             }
 
             return BadRequest(response.Errors);
-
-            return Ok();
         }
 
-        [HttpPut("{id:int}")]
+        [HttpPut("{id:int}/{expireIn:double?}")]
         [ProducesResponseType(typeof(StorePutResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BadRequestObjectResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
@@ -108,6 +106,26 @@ namespace Ni.Store.Api.Controllers
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             var response = await _storeService.Delete(id);
+            if (!response.HasError && response.Data.HasValue && response.Data.Value)
+            {
+                return NoContent();
+            }
+
+            if (!response.HasError && response.Data == null)
+            {
+                return NotFound();
+            }
+
+            return BadRequest(response.Errors);
+        }
+
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete()
+        {
+            var response = await _storeService.Delete();
             if (!response.HasError && response.Data.HasValue && response.Data.Value)
             {
                 return NoContent();

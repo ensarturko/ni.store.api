@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Ni.Store.Api.Models.Requests;
 using Ni.Store.Api.Models.Responses;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Protocols;
 using Ni.Store.Api.Data.Repositories;
 using Ni.Store.Api.Utilities;
 
@@ -89,26 +89,46 @@ namespace Ni.Store.Api.Services.Implementations
         {
             var response = new BaseResponse<StorePutResponse>();
 
+            if (!id.IsGreaterThanZero())
+            {
+                response.Errors.Add("Id must be greater than zero.");
+            }
+
+            if (string.IsNullOrEmpty(request.Key))
+            {
+                response.Errors.Add("Key cannot be null or empty.");
+            }
+
+            if (string.IsNullOrEmpty(request.Value))
+            {
+                response.Errors.Add("Value cannot be null or empty.");
+            }
+
+            if (await _repository.Head(request.Key, request.Value))
+            {
+                response.Errors.Add("This record already exists.");
+            }
+
             try
             {
-                var store = await _repository.Get(id);
-
-                if (store != null)
+                if (!response.HasError)
                 {
-                    store.Key = request.Key;
-                    store.Value = request.Value;
+                    var store = await _repository.Get(id);
 
-                    if (expireIn.HasValue)
+                    if (store == null)
                     {
-                        store.ExpirationTime = DateTime.Now.AddSeconds((double) expireIn); 
-                    }
-
-                    if (await _repository.Head(store.Key, store.Value))
-                    {
-                        response.Errors.Add("This record already exists.");
+                        response.Errors.Add("No such record exists.");
                     }
                     else
                     {
+                        store.Key = request.Key;
+                        store.Value = request.Value;
+
+                        if (expireIn.HasValue)
+                        {
+                            store.ExpirationTime = DateTime.Now.AddSeconds((double) expireIn);
+                        }
+
                         var entity = await _repository.Update(store);
                         response.Data = entity.ConvertToStorePutResponse();
                     }
@@ -158,7 +178,7 @@ namespace Ni.Store.Api.Services.Implementations
             return response;
         }
 
-        public async Task Delete()
+        public async Task<BaseResponse<bool?>> Delete()
         {
             var response = new BaseResponse<bool?>();
 
@@ -171,8 +191,11 @@ namespace Ni.Store.Api.Services.Implementations
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
+                response.Data = false;
                 response.Errors.Add("An error occurred while processing your request.");
             }
+
+            return response;
         }
 
         public async Task Head(StoreHeadRequest request)
@@ -195,6 +218,16 @@ namespace Ni.Store.Api.Services.Implementations
         {
             var response = new BaseResponse<StorePostResponse>();
 
+            if (string.IsNullOrEmpty(request.Key))
+            {
+                response.Errors.Add("Key cannot be null or empty.");
+            }
+
+            if (string.IsNullOrEmpty(request.Value))
+            {
+                response.Errors.Add("Value cannot be null or empty.");
+            }
+
             if (!request.ExpirationTime.HasValue)
             {
                 request.ExpirationTime = DateTime.Now.AddDays(1);
@@ -211,7 +244,8 @@ namespace Ni.Store.Api.Services.Implementations
             {
                 response.Errors.Add("This record already exists.");
             }
-            else
+
+            if (!response.HasError)
             {
                 var entity = await _repository.Post(store);
                 response.Data = entity.ConvertToStorePostResponse();
