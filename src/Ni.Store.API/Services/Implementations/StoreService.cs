@@ -198,7 +198,7 @@ namespace Ni.Store.Api.Services.Implementations
             return response;
         }
 
-        public async Task Head(StoreHeadRequest request)
+        public async Task<BaseResponse<bool>> Head(StoreHeadRequest request)
         {
             var response = new BaseResponse<bool>();
 
@@ -212,6 +212,8 @@ namespace Ni.Store.Api.Services.Implementations
 
                 response.Errors.Add("An error occurred while processing your request.");
             }
+
+            return response;
         }
 
         public async Task<BaseResponse<StorePostResponse>> Post(StorePutRequest request)

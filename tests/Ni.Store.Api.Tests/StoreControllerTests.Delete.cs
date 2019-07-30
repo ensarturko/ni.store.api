@@ -11,7 +11,7 @@ namespace Ni.Store.Api.Tests
     public partial class StoreControllerTests
     {
         [Fact]
-        internal async Task Delete_Should_Record_NoContent_Record()
+        internal async Task Delete_Should_Return_NoContent_Record()
         {
             // Arrange
             var client = _factory.CreateClient();

@@ -12,7 +12,7 @@ namespace Ni.Store.Api.Services
         Task<BaseResponse<StorePutResponse>> Put(int id, double? expireIn, StorePutRequest request);
         Task<BaseResponse<bool?>> Delete(int id);
         Task<BaseResponse<bool?>> Delete();
-        Task Head(StoreHeadRequest request);
+        Task<BaseResponse<bool>> Head(StoreHeadRequest request);
         Task<BaseResponse<StorePostResponse>> Post(StorePutRequest request);
         Task<Data.Entities.Store> GetFirst();
     }

@@ -138,5 +138,20 @@ namespace Ni.Store.Api.Controllers
 
             return BadRequest(response.Errors);
         }
+
+        [HttpHead]
+        [ProducesResponseType(typeof(BadRequestObjectResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(NotFoundResult), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Head([FromBody] StoreHeadRequest request)
+        {
+            var response = await _storeService.Head(request);
+
+            if (!response.HasError)
+            {
+                return Ok(response.Data);
+            }
+
+            return BadRequest(response.Errors);
+        }
     }
 }
