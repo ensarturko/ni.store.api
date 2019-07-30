@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Ni.Store.Api.Data.Repositories;
 using Ni.Store.Api.Data.Repositories.Implementations;
 using Ni.Store.Api.Middleware;
+using NLog.Extensions.Logging;
 
 namespace Ni.Store.Api
 {
@@ -62,7 +63,9 @@ namespace Ni.Store.Api
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            //loggerFactory.AddProvider(new FileLogProvider());
+            loggerFactory.AddNLog();
+            NLog.LogManager.LoadConfiguration("nlog.config");
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 
             if (env.IsDevelopment())
             {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 using Ni.Store.Api.Models.Requests;
 using Ni.Store.Api.Models.Responses;
 using Microsoft.Extensions.Logging;
