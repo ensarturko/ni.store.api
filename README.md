@@ -30,8 +30,9 @@
  
 ### How to use?
 
+- Install .net core 2.2.
 - Clone the project.
-- Run the project using cli or an IDE.
+- Run the project using cli or an IDE.(cli command: dotnet run)
 - Go to /swagger or use documentation to explore the capabilities of API.
 - Use a tool like Postman to make requests to API.
 
