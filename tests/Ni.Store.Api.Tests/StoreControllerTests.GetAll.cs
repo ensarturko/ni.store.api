@@ -59,7 +59,6 @@ namespace Ni.Store.Api.Tests
             Assert.NotEmpty(responseString);
             Assert.NotNull(resultItemList);
             Assert.True(resultItemList.Count > 1);
-            Assert.Equal(1, resultItemList.FirstOrDefault()?.Id);
             Assert.Equal("TestKey1", resultItemList.FirstOrDefault()?.Key);
             Assert.Equal("TestValue1", resultItemList.FirstOrDefault()?.Value);
         }
