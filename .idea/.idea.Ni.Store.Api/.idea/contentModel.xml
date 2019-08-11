@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$USER_HOME$/.nuget/packages/xunit.runner.visualstudio/2.4.0/build/netcoreapp1.0/xunit.runner.reporters.netcoreapp10.dll" t="Include" />
+    <e p="$USER_HOME$/.nuget/packages/xunit.runner.visualstudio/2.4.0/build/netcoreapp1.0/xunit.runner.utility.netcoreapp10.dll" t="Include" />
+    <e p="$USER_HOME$/.nuget/packages/xunit.runner.visualstudio/2.4.0/build/netcoreapp1.0/xunit.runner.visualstudio.dotnetcore.testadapter.dll" t="Include" />
+    <e p="$PROJECT_DIR$/../.gitattributes" t="Include" />
+    <e p="$PROJECT_DIR$/../.gitignore" t="Include" />
+    <e p="$PROJECT_DIR$" t="IncludeFlat">
+      <e p="Ni.Store.Api.sln" t="IncludeFlat" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="README.md" t="Include" />
+      <e p="Solution Items" t="Include" />
+      <e p="src" t="Include">
+        <e p="ni.store.api" t="IncludeRecursive">
+          <e p="appsettings.Development.json" t="Include" />
+          <e p="appsettings.json" t="Include" />
+          <e p="bin" t="ExcludeRecursive" />
+          <e p="Controllers" t="Include">
+            <e p="BaseController.cs" t="Include" />
+            <e p="HelpController.cs" t="Include" />
+            <e p="StoreController.cs" t="Include" />
+          </e>
+          <e p="Data" t="Include">
+            <e p="Entities" t="Include">
+              <e p="Store.cs" t="Include" />
+            </e>
+            <e p="Repositories" t="Include">
+              <e p="Implementations" t="Include">
+                <e p="StoreRepository.cs" t="Include" />
+              </e>
+              <e p="IStoreRepository.cs" t="Include" />
+            </e>
+            <e p="StoreDbContext.cs" t="Include" />
+          </e>
+          <e p="Filters" t="Include">
+            <e p="GlobalExceptionFilter.cs" t="Include" />
+            <e p="ValidateModelStateFilter.cs" t="Include" />
+          </e>
+          <e p="Logging" t="Include" />
+          <e p="Middleware" t="Include">
+            <e p="LoggingMiddleware.cs" t="Include" />
+          </e>
+          <e p="Migrations" t="Include">
+            <e p="20190727105020_InitialCreate.cs" t="Include" />
+            <e p="20190727105020_InitialCreate.Designer.cs" t="Include" />
+            <e p="StoreDbContextModelSnapshot.cs" t="Include" />
+          </e>
+          <e p="Models" t="Include">
+            <e p="Requests" t="Include">
+              <e p="CoreRequest.cs" t="Include" />
+              <e p="PagedBaseAPIRequest.cs" t="Include" />
+              <e p="StoreGetAllRequest.cs" t="Include" />
+              <e p="StoreGetRequest.cs" t="Include" />
+              <e p="StoreHeadRequest.cs" t="Include" />
+              <e p="StorePutRequest.cs" t="Include" />
+            </e>
+            <e p="Responses" t="Include">
+              <e p="BaseResponse.cs" t="Include" />
+              <e p="CoreResponse.cs" t="Include" />
+              <e p="PagedAPIResponse.cs" t="Include" />
+              <e p="StoreGetResponse.cs" t="Include" />
+              <e p="StoreHeadResponse.cs" t="Include" />
+              <e p="StorePostResponse.cs" t="Include" />
+              <e p="StorePutResponse.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Ni.Store.Api.csproj" t="IncludeRecursive" />
+          <e p="nlog.config" t="Include" />
+          <e p="obj" t="ExcludeRecursive">
+            <e p="Debug" t="Include">
+              <e p="netcoreapp2.2" t="Include">
+                <e p="Ni.Store.Api.AssemblyInfo.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="Program.cs" t="Include" />
+          <e p="Properties" t="Include">
+            <e p="launchSettings.json" t="Include" />
+          </e>
+          <e p="Services" t="Include">
+            <e p="HealthCheckService.cs" t="Include" />
+            <e p="Implementations" t="Include">
+              <e p="StoreService.cs" t="Include" />
+            </e>
+            <e p="IStoreService.cs" t="Include" />
+          </e>
+          <e p="Startup.cs" t="Include" />
+          <e p="Utilities" t="Include">
+            <e p="Mapper.cs" t="Include" />
+            <e p="NumberExtensions.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="tests" t="Include">
+        <e p="Ni.Store.Api.Tests" t="IncludeRecursive">
+          <e p="bin" t="ExcludeRecursive" />
+          <e p="CustomWebApplicationFactory.cs" t="Include" />
+          <e p="Ni.Store.Api.Tests.csproj" t="IncludeRecursive" />
+          <e p="obj" t="ExcludeRecursive">
+            <e p="Debug" t="Include">
+              <e p="netcoreapp2.2" t="Include">
+                <e p="Ni.Store.Api.Tests.AssemblyInfo.cs" t="Include" />
+                <e p="Ni.Store.Api.Tests.Program.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="StoreControllerTests.cs" t="Include" />
+          <e p="StoreControllerTests.Delete.cs" t="Include" />
+          <e p="StoreControllerTests.DeleteAll.cs" t="Include" />
+          <e p="StoreControllerTests.Get.cs" t="Include" />
+          <e p="StoreControllerTests.GetAll.cs" t="Include" />
+          <e p="StoreControllerTests.Post.cs" t="Include" />
+          <e p="StoreControllerTests.Put.cs" t="Include" />
+        </e>
+      </e>
+    </e>
+    <e p="$USER_HOME$/Library/Caches/Rider2018.3/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/Library/Caches/Rider2018.3/resharper-host/local/Transient/ReSharperHost/v183/SolutionCaches/_Ni.Store.Api.1234476716.00" t="ExcludeRecursive" />
+  </component>
+</project>
